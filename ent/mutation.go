@@ -34,13 +34,16 @@ type FruitPriceMutation struct {
 	op            Op
 	typ           string
 	id            *uuid.UUID
+	created_at    *time.Time
+	updated_at    *time.Time
+	created_by    *string
+	updated_by    *string
+	deleted_at    *time.Time
 	name          *string
 	price         *float64
 	addprice      *float64
 	unit          *string
 	remark        *string
-	created_at    *time.Time
-	updated_at    *time.Time
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*FruitPrice, error)
@@ -149,6 +152,225 @@ func (m *FruitPriceMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *FruitPriceMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *FruitPriceMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the FruitPrice entity.
+// If the FruitPrice object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FruitPriceMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *FruitPriceMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *FruitPriceMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *FruitPriceMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the FruitPrice entity.
+// If the FruitPrice object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FruitPriceMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *FruitPriceMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (m *FruitPriceMutation) SetCreatedBy(s string) {
+	m.created_by = &s
+}
+
+// CreatedBy returns the value of the "created_by" field in the mutation.
+func (m *FruitPriceMutation) CreatedBy() (r string, exists bool) {
+	v := m.created_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedBy returns the old "created_by" field's value of the FruitPrice entity.
+// If the FruitPrice object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FruitPriceMutation) OldCreatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedBy: %w", err)
+	}
+	return oldValue.CreatedBy, nil
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (m *FruitPriceMutation) ClearCreatedBy() {
+	m.created_by = nil
+	m.clearedFields[fruitprice.FieldCreatedBy] = struct{}{}
+}
+
+// CreatedByCleared returns if the "created_by" field was cleared in this mutation.
+func (m *FruitPriceMutation) CreatedByCleared() bool {
+	_, ok := m.clearedFields[fruitprice.FieldCreatedBy]
+	return ok
+}
+
+// ResetCreatedBy resets all changes to the "created_by" field.
+func (m *FruitPriceMutation) ResetCreatedBy() {
+	m.created_by = nil
+	delete(m.clearedFields, fruitprice.FieldCreatedBy)
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (m *FruitPriceMutation) SetUpdatedBy(s string) {
+	m.updated_by = &s
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *FruitPriceMutation) UpdatedBy() (r string, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the FruitPrice entity.
+// If the FruitPrice object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FruitPriceMutation) OldUpdatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *FruitPriceMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.clearedFields[fruitprice.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *FruitPriceMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[fruitprice.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *FruitPriceMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	delete(m.clearedFields, fruitprice.FieldUpdatedBy)
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *FruitPriceMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *FruitPriceMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the FruitPrice entity.
+// If the FruitPrice object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FruitPriceMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *FruitPriceMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[fruitprice.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *FruitPriceMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[fruitprice.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *FruitPriceMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, fruitprice.FieldDeletedAt)
 }
 
 // SetName sets the "name" field.
@@ -315,78 +537,6 @@ func (m *FruitPriceMutation) ResetRemark() {
 	m.remark = nil
 }
 
-// SetCreatedAt sets the "created_at" field.
-func (m *FruitPriceMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *FruitPriceMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the FruitPrice entity.
-// If the FruitPrice object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FruitPriceMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *FruitPriceMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *FruitPriceMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *FruitPriceMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the FruitPrice entity.
-// If the FruitPrice object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FruitPriceMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *FruitPriceMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
 // Where appends a list predicates to the FruitPriceMutation builder.
 func (m *FruitPriceMutation) Where(ps ...predicate.FruitPrice) {
 	m.predicates = append(m.predicates, ps...)
@@ -421,7 +571,22 @@ func (m *FruitPriceMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *FruitPriceMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 9)
+	if m.created_at != nil {
+		fields = append(fields, fruitprice.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, fruitprice.FieldUpdatedAt)
+	}
+	if m.created_by != nil {
+		fields = append(fields, fruitprice.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, fruitprice.FieldUpdatedBy)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, fruitprice.FieldDeletedAt)
+	}
 	if m.name != nil {
 		fields = append(fields, fruitprice.FieldName)
 	}
@@ -434,12 +599,6 @@ func (m *FruitPriceMutation) Fields() []string {
 	if m.remark != nil {
 		fields = append(fields, fruitprice.FieldRemark)
 	}
-	if m.created_at != nil {
-		fields = append(fields, fruitprice.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, fruitprice.FieldUpdatedAt)
-	}
 	return fields
 }
 
@@ -448,6 +607,16 @@ func (m *FruitPriceMutation) Fields() []string {
 // schema.
 func (m *FruitPriceMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case fruitprice.FieldCreatedAt:
+		return m.CreatedAt()
+	case fruitprice.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case fruitprice.FieldCreatedBy:
+		return m.CreatedBy()
+	case fruitprice.FieldUpdatedBy:
+		return m.UpdatedBy()
+	case fruitprice.FieldDeletedAt:
+		return m.DeletedAt()
 	case fruitprice.FieldName:
 		return m.Name()
 	case fruitprice.FieldPrice:
@@ -456,10 +625,6 @@ func (m *FruitPriceMutation) Field(name string) (ent.Value, bool) {
 		return m.Unit()
 	case fruitprice.FieldRemark:
 		return m.Remark()
-	case fruitprice.FieldCreatedAt:
-		return m.CreatedAt()
-	case fruitprice.FieldUpdatedAt:
-		return m.UpdatedAt()
 	}
 	return nil, false
 }
@@ -469,6 +634,16 @@ func (m *FruitPriceMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *FruitPriceMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case fruitprice.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case fruitprice.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case fruitprice.FieldCreatedBy:
+		return m.OldCreatedBy(ctx)
+	case fruitprice.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
+	case fruitprice.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
 	case fruitprice.FieldName:
 		return m.OldName(ctx)
 	case fruitprice.FieldPrice:
@@ -477,10 +652,6 @@ func (m *FruitPriceMutation) OldField(ctx context.Context, name string) (ent.Val
 		return m.OldUnit(ctx)
 	case fruitprice.FieldRemark:
 		return m.OldRemark(ctx)
-	case fruitprice.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case fruitprice.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
 	}
 	return nil, fmt.Errorf("unknown FruitPrice field %s", name)
 }
@@ -490,6 +661,41 @@ func (m *FruitPriceMutation) OldField(ctx context.Context, name string) (ent.Val
 // type.
 func (m *FruitPriceMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case fruitprice.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case fruitprice.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case fruitprice.FieldCreatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedBy(v)
+		return nil
+	case fruitprice.FieldUpdatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
+	case fruitprice.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
 	case fruitprice.FieldName:
 		v, ok := value.(string)
 		if !ok {
@@ -517,20 +723,6 @@ func (m *FruitPriceMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetRemark(v)
-		return nil
-	case fruitprice.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case fruitprice.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
 		return nil
 	}
 	return fmt.Errorf("unknown FruitPrice field %s", name)
@@ -576,7 +768,17 @@ func (m *FruitPriceMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *FruitPriceMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(fruitprice.FieldCreatedBy) {
+		fields = append(fields, fruitprice.FieldCreatedBy)
+	}
+	if m.FieldCleared(fruitprice.FieldUpdatedBy) {
+		fields = append(fields, fruitprice.FieldUpdatedBy)
+	}
+	if m.FieldCleared(fruitprice.FieldDeletedAt) {
+		fields = append(fields, fruitprice.FieldDeletedAt)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -589,6 +791,17 @@ func (m *FruitPriceMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *FruitPriceMutation) ClearField(name string) error {
+	switch name {
+	case fruitprice.FieldCreatedBy:
+		m.ClearCreatedBy()
+		return nil
+	case fruitprice.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
+	case fruitprice.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	}
 	return fmt.Errorf("unknown FruitPrice nullable field %s", name)
 }
 
@@ -596,6 +809,21 @@ func (m *FruitPriceMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *FruitPriceMutation) ResetField(name string) error {
 	switch name {
+	case fruitprice.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case fruitprice.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case fruitprice.FieldCreatedBy:
+		m.ResetCreatedBy()
+		return nil
+	case fruitprice.FieldUpdatedBy:
+		m.ResetUpdatedBy()
+		return nil
+	case fruitprice.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
 	case fruitprice.FieldName:
 		m.ResetName()
 		return nil
@@ -607,12 +835,6 @@ func (m *FruitPriceMutation) ResetField(name string) error {
 		return nil
 	case fruitprice.FieldRemark:
 		m.ResetRemark()
-		return nil
-	case fruitprice.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case fruitprice.FieldUpdatedAt:
-		m.ResetUpdatedAt()
 		return nil
 	}
 	return fmt.Errorf("unknown FruitPrice field %s", name)

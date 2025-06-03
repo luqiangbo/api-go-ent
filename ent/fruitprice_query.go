@@ -263,12 +263,12 @@ func (fpq *FruitPriceQuery) Clone() *FruitPriceQuery {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.FruitPrice.Query().
-//		GroupBy(fruitprice.FieldName).
+//		GroupBy(fruitprice.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (fpq *FruitPriceQuery) GroupBy(field string, fields ...string) *FruitPriceGroupBy {
@@ -286,11 +286,11 @@ func (fpq *FruitPriceQuery) GroupBy(field string, fields ...string) *FruitPriceG
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.FruitPrice.Query().
-//		Select(fruitprice.FieldName).
+//		Select(fruitprice.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (fpq *FruitPriceQuery) Select(fields ...string) *FruitPriceSelect {
 	fpq.ctx.Fields = append(fpq.ctx.Fields, fields...)

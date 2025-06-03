@@ -11,12 +11,15 @@ var (
 	// FruitPricesColumns holds the columns for the "fruit_prices" table.
 	FruitPricesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
-		{Name: "name", Type: field.TypeString},
-		{Name: "price", Type: field.TypeFloat64},
-		{Name: "unit", Type: field.TypeString},
-		{Name: "remark", Type: field.TypeString},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "created_by", Type: field.TypeString, Nullable: true},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true},
+		{Name: "name", Type: field.TypeString, Size: 50},
+		{Name: "price", Type: field.TypeFloat64},
+		{Name: "unit", Type: field.TypeString, Size: 10},
+		{Name: "remark", Type: field.TypeString, Size: 200},
 	}
 	// FruitPricesTable holds the schema information for the "fruit_prices" table.
 	FruitPricesTable = &schema.Table{

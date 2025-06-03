@@ -28,6 +28,72 @@ func (fpu *FruitPriceUpdate) Where(ps ...predicate.FruitPrice) *FruitPriceUpdate
 	return fpu
 }
 
+// SetUpdatedAt sets the "updated_at" field.
+func (fpu *FruitPriceUpdate) SetUpdatedAt(t time.Time) *FruitPriceUpdate {
+	fpu.mutation.SetUpdatedAt(t)
+	return fpu
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (fpu *FruitPriceUpdate) SetCreatedBy(s string) *FruitPriceUpdate {
+	fpu.mutation.SetCreatedBy(s)
+	return fpu
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (fpu *FruitPriceUpdate) SetNillableCreatedBy(s *string) *FruitPriceUpdate {
+	if s != nil {
+		fpu.SetCreatedBy(*s)
+	}
+	return fpu
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (fpu *FruitPriceUpdate) ClearCreatedBy() *FruitPriceUpdate {
+	fpu.mutation.ClearCreatedBy()
+	return fpu
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (fpu *FruitPriceUpdate) SetUpdatedBy(s string) *FruitPriceUpdate {
+	fpu.mutation.SetUpdatedBy(s)
+	return fpu
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (fpu *FruitPriceUpdate) SetNillableUpdatedBy(s *string) *FruitPriceUpdate {
+	if s != nil {
+		fpu.SetUpdatedBy(*s)
+	}
+	return fpu
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (fpu *FruitPriceUpdate) ClearUpdatedBy() *FruitPriceUpdate {
+	fpu.mutation.ClearUpdatedBy()
+	return fpu
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (fpu *FruitPriceUpdate) SetDeletedAt(t time.Time) *FruitPriceUpdate {
+	fpu.mutation.SetDeletedAt(t)
+	return fpu
+}
+
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (fpu *FruitPriceUpdate) SetNillableDeletedAt(t *time.Time) *FruitPriceUpdate {
+	if t != nil {
+		fpu.SetDeletedAt(*t)
+	}
+	return fpu
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (fpu *FruitPriceUpdate) ClearDeletedAt() *FruitPriceUpdate {
+	fpu.mutation.ClearDeletedAt()
+	return fpu
+}
+
 // SetName sets the "name" field.
 func (fpu *FruitPriceUpdate) SetName(s string) *FruitPriceUpdate {
 	fpu.mutation.SetName(s)
@@ -88,12 +154,6 @@ func (fpu *FruitPriceUpdate) SetNillableRemark(s *string) *FruitPriceUpdate {
 	if s != nil {
 		fpu.SetRemark(*s)
 	}
-	return fpu
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (fpu *FruitPriceUpdate) SetUpdatedAt(t time.Time) *FruitPriceUpdate {
-	fpu.mutation.SetUpdatedAt(t)
 	return fpu
 }
 
@@ -175,6 +235,27 @@ func (fpu *FruitPriceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := fpu.mutation.UpdatedAt(); ok {
+		_spec.SetField(fruitprice.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if value, ok := fpu.mutation.CreatedBy(); ok {
+		_spec.SetField(fruitprice.FieldCreatedBy, field.TypeString, value)
+	}
+	if fpu.mutation.CreatedByCleared() {
+		_spec.ClearField(fruitprice.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := fpu.mutation.UpdatedBy(); ok {
+		_spec.SetField(fruitprice.FieldUpdatedBy, field.TypeString, value)
+	}
+	if fpu.mutation.UpdatedByCleared() {
+		_spec.ClearField(fruitprice.FieldUpdatedBy, field.TypeString)
+	}
+	if value, ok := fpu.mutation.DeletedAt(); ok {
+		_spec.SetField(fruitprice.FieldDeletedAt, field.TypeTime, value)
+	}
+	if fpu.mutation.DeletedAtCleared() {
+		_spec.ClearField(fruitprice.FieldDeletedAt, field.TypeTime)
+	}
 	if value, ok := fpu.mutation.Name(); ok {
 		_spec.SetField(fruitprice.FieldName, field.TypeString, value)
 	}
@@ -189,9 +270,6 @@ func (fpu *FruitPriceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := fpu.mutation.Remark(); ok {
 		_spec.SetField(fruitprice.FieldRemark, field.TypeString, value)
-	}
-	if value, ok := fpu.mutation.UpdatedAt(); ok {
-		_spec.SetField(fruitprice.FieldUpdatedAt, field.TypeTime, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, fpu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -211,6 +289,72 @@ type FruitPriceUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *FruitPriceMutation
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (fpuo *FruitPriceUpdateOne) SetUpdatedAt(t time.Time) *FruitPriceUpdateOne {
+	fpuo.mutation.SetUpdatedAt(t)
+	return fpuo
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (fpuo *FruitPriceUpdateOne) SetCreatedBy(s string) *FruitPriceUpdateOne {
+	fpuo.mutation.SetCreatedBy(s)
+	return fpuo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (fpuo *FruitPriceUpdateOne) SetNillableCreatedBy(s *string) *FruitPriceUpdateOne {
+	if s != nil {
+		fpuo.SetCreatedBy(*s)
+	}
+	return fpuo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (fpuo *FruitPriceUpdateOne) ClearCreatedBy() *FruitPriceUpdateOne {
+	fpuo.mutation.ClearCreatedBy()
+	return fpuo
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (fpuo *FruitPriceUpdateOne) SetUpdatedBy(s string) *FruitPriceUpdateOne {
+	fpuo.mutation.SetUpdatedBy(s)
+	return fpuo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (fpuo *FruitPriceUpdateOne) SetNillableUpdatedBy(s *string) *FruitPriceUpdateOne {
+	if s != nil {
+		fpuo.SetUpdatedBy(*s)
+	}
+	return fpuo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (fpuo *FruitPriceUpdateOne) ClearUpdatedBy() *FruitPriceUpdateOne {
+	fpuo.mutation.ClearUpdatedBy()
+	return fpuo
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (fpuo *FruitPriceUpdateOne) SetDeletedAt(t time.Time) *FruitPriceUpdateOne {
+	fpuo.mutation.SetDeletedAt(t)
+	return fpuo
+}
+
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (fpuo *FruitPriceUpdateOne) SetNillableDeletedAt(t *time.Time) *FruitPriceUpdateOne {
+	if t != nil {
+		fpuo.SetDeletedAt(*t)
+	}
+	return fpuo
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (fpuo *FruitPriceUpdateOne) ClearDeletedAt() *FruitPriceUpdateOne {
+	fpuo.mutation.ClearDeletedAt()
+	return fpuo
 }
 
 // SetName sets the "name" field.
@@ -273,12 +417,6 @@ func (fpuo *FruitPriceUpdateOne) SetNillableRemark(s *string) *FruitPriceUpdateO
 	if s != nil {
 		fpuo.SetRemark(*s)
 	}
-	return fpuo
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (fpuo *FruitPriceUpdateOne) SetUpdatedAt(t time.Time) *FruitPriceUpdateOne {
-	fpuo.mutation.SetUpdatedAt(t)
 	return fpuo
 }
 
@@ -390,6 +528,27 @@ func (fpuo *FruitPriceUpdateOne) sqlSave(ctx context.Context) (_node *FruitPrice
 			}
 		}
 	}
+	if value, ok := fpuo.mutation.UpdatedAt(); ok {
+		_spec.SetField(fruitprice.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if value, ok := fpuo.mutation.CreatedBy(); ok {
+		_spec.SetField(fruitprice.FieldCreatedBy, field.TypeString, value)
+	}
+	if fpuo.mutation.CreatedByCleared() {
+		_spec.ClearField(fruitprice.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := fpuo.mutation.UpdatedBy(); ok {
+		_spec.SetField(fruitprice.FieldUpdatedBy, field.TypeString, value)
+	}
+	if fpuo.mutation.UpdatedByCleared() {
+		_spec.ClearField(fruitprice.FieldUpdatedBy, field.TypeString)
+	}
+	if value, ok := fpuo.mutation.DeletedAt(); ok {
+		_spec.SetField(fruitprice.FieldDeletedAt, field.TypeTime, value)
+	}
+	if fpuo.mutation.DeletedAtCleared() {
+		_spec.ClearField(fruitprice.FieldDeletedAt, field.TypeTime)
+	}
 	if value, ok := fpuo.mutation.Name(); ok {
 		_spec.SetField(fruitprice.FieldName, field.TypeString, value)
 	}
@@ -404,9 +563,6 @@ func (fpuo *FruitPriceUpdateOne) sqlSave(ctx context.Context) (_node *FruitPrice
 	}
 	if value, ok := fpuo.mutation.Remark(); ok {
 		_spec.SetField(fruitprice.FieldRemark, field.TypeString, value)
-	}
-	if value, ok := fpuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(fruitprice.FieldUpdatedAt, field.TypeTime, value)
 	}
 	_node = &FruitPrice{config: fpuo.config}
 	_spec.Assign = _node.assignValues

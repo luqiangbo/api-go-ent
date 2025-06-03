@@ -27,7 +27,7 @@
     {
       "label": "run-project",
       "type": "shell",
-      "command": "go run main.go",
+      "command": "go run cmd/api/main.go",
       "group": "test",
       "presentation": {
         "reveal": "always",

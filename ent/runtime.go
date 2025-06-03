@@ -14,36 +14,81 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	fruitpriceMixin := schema.FruitPrice{}.Mixin()
+	fruitpriceMixinFields0 := fruitpriceMixin[0].Fields()
+	_ = fruitpriceMixinFields0
 	fruitpriceFields := schema.FruitPrice{}.Fields()
 	_ = fruitpriceFields
-	// fruitpriceDescName is the schema descriptor for name field.
-	fruitpriceDescName := fruitpriceFields[1].Descriptor()
-	// fruitprice.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	fruitprice.NameValidator = fruitpriceDescName.Validators[0].(func(string) error)
-	// fruitpriceDescPrice is the schema descriptor for price field.
-	fruitpriceDescPrice := fruitpriceFields[2].Descriptor()
-	// fruitprice.PriceValidator is a validator for the "price" field. It is called by the builders before save.
-	fruitprice.PriceValidator = fruitpriceDescPrice.Validators[0].(func(float64) error)
-	// fruitpriceDescUnit is the schema descriptor for unit field.
-	fruitpriceDescUnit := fruitpriceFields[3].Descriptor()
-	// fruitprice.UnitValidator is a validator for the "unit" field. It is called by the builders before save.
-	fruitprice.UnitValidator = fruitpriceDescUnit.Validators[0].(func(string) error)
-	// fruitpriceDescRemark is the schema descriptor for remark field.
-	fruitpriceDescRemark := fruitpriceFields[4].Descriptor()
-	// fruitprice.RemarkValidator is a validator for the "remark" field. It is called by the builders before save.
-	fruitprice.RemarkValidator = fruitpriceDescRemark.Validators[0].(func(string) error)
 	// fruitpriceDescCreatedAt is the schema descriptor for created_at field.
-	fruitpriceDescCreatedAt := fruitpriceFields[5].Descriptor()
+	fruitpriceDescCreatedAt := fruitpriceMixinFields0[1].Descriptor()
 	// fruitprice.DefaultCreatedAt holds the default value on creation for the created_at field.
 	fruitprice.DefaultCreatedAt = fruitpriceDescCreatedAt.Default.(func() time.Time)
 	// fruitpriceDescUpdatedAt is the schema descriptor for updated_at field.
-	fruitpriceDescUpdatedAt := fruitpriceFields[6].Descriptor()
+	fruitpriceDescUpdatedAt := fruitpriceMixinFields0[2].Descriptor()
 	// fruitprice.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	fruitprice.DefaultUpdatedAt = fruitpriceDescUpdatedAt.Default.(func() time.Time)
 	// fruitprice.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	fruitprice.UpdateDefaultUpdatedAt = fruitpriceDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// fruitpriceDescName is the schema descriptor for name field.
+	fruitpriceDescName := fruitpriceFields[0].Descriptor()
+	// fruitprice.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	fruitprice.NameValidator = func() func(string) error {
+		validators := fruitpriceDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// fruitpriceDescPrice is the schema descriptor for price field.
+	fruitpriceDescPrice := fruitpriceFields[1].Descriptor()
+	// fruitprice.PriceValidator is a validator for the "price" field. It is called by the builders before save.
+	fruitprice.PriceValidator = fruitpriceDescPrice.Validators[0].(func(float64) error)
+	// fruitpriceDescUnit is the schema descriptor for unit field.
+	fruitpriceDescUnit := fruitpriceFields[2].Descriptor()
+	// fruitprice.UnitValidator is a validator for the "unit" field. It is called by the builders before save.
+	fruitprice.UnitValidator = func() func(string) error {
+		validators := fruitpriceDescUnit.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(unit string) error {
+			for _, fn := range fns {
+				if err := fn(unit); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// fruitpriceDescRemark is the schema descriptor for remark field.
+	fruitpriceDescRemark := fruitpriceFields[3].Descriptor()
+	// fruitprice.RemarkValidator is a validator for the "remark" field. It is called by the builders before save.
+	fruitprice.RemarkValidator = func() func(string) error {
+		validators := fruitpriceDescRemark.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(remark string) error {
+			for _, fn := range fns {
+				if err := fn(remark); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// fruitpriceDescID is the schema descriptor for id field.
-	fruitpriceDescID := fruitpriceFields[0].Descriptor()
+	fruitpriceDescID := fruitpriceMixinFields0[0].Descriptor()
 	// fruitprice.DefaultID holds the default value on creation for the id field.
 	fruitprice.DefaultID = fruitpriceDescID.Default.(func() uuid.UUID)
 }

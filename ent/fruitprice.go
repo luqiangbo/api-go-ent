@@ -17,19 +17,26 @@ import (
 type FruitPrice struct {
 	config `json:"-"`
 	// ID of the ent.
+	// 主键ID
 	ID uuid.UUID `json:"id,omitempty"`
-	// Name holds the value of the "name" field.
+	// 创建时间
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	// 更新时间
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	// 创建者
+	CreatedBy string `json:"created_by,omitempty"`
+	// 更新者
+	UpdatedBy string `json:"updated_by,omitempty"`
+	// 删除时间
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
+	// 水果名称
 	Name string `json:"name,omitempty"`
-	// Price holds the value of the "price" field.
+	// 价格
 	Price float64 `json:"price,omitempty"`
 	// 单位(如: kg, 个, 箱)
 	Unit string `json:"unit,omitempty"`
 	// 备注信息
-	Remark string `json:"remark,omitempty"`
-	// CreatedAt holds the value of the "created_at" field.
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	Remark       string `json:"remark,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -40,9 +47,9 @@ func (*FruitPrice) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case fruitprice.FieldPrice:
 			values[i] = new(sql.NullFloat64)
-		case fruitprice.FieldName, fruitprice.FieldUnit, fruitprice.FieldRemark:
+		case fruitprice.FieldCreatedBy, fruitprice.FieldUpdatedBy, fruitprice.FieldName, fruitprice.FieldUnit, fruitprice.FieldRemark:
 			values[i] = new(sql.NullString)
-		case fruitprice.FieldCreatedAt, fruitprice.FieldUpdatedAt:
+		case fruitprice.FieldCreatedAt, fruitprice.FieldUpdatedAt, fruitprice.FieldDeletedAt:
 			values[i] = new(sql.NullTime)
 		case fruitprice.FieldID:
 			values[i] = new(uuid.UUID)
@@ -67,6 +74,37 @@ func (fp *FruitPrice) assignValues(columns []string, values []any) error {
 			} else if value != nil {
 				fp.ID = *value
 			}
+		case fruitprice.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+			} else if value.Valid {
+				fp.CreatedAt = value.Time
+			}
+		case fruitprice.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+			} else if value.Valid {
+				fp.UpdatedAt = value.Time
+			}
+		case fruitprice.FieldCreatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
+			} else if value.Valid {
+				fp.CreatedBy = value.String
+			}
+		case fruitprice.FieldUpdatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
+			} else if value.Valid {
+				fp.UpdatedBy = value.String
+			}
+		case fruitprice.FieldDeletedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
+			} else if value.Valid {
+				fp.DeletedAt = new(time.Time)
+				*fp.DeletedAt = value.Time
+			}
 		case fruitprice.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
@@ -90,18 +128,6 @@ func (fp *FruitPrice) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
 				fp.Remark = value.String
-			}
-		case fruitprice.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field created_at", values[i])
-			} else if value.Valid {
-				fp.CreatedAt = value.Time
-			}
-		case fruitprice.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
-			} else if value.Valid {
-				fp.UpdatedAt = value.Time
 			}
 		default:
 			fp.selectValues.Set(columns[i], values[i])
@@ -139,6 +165,23 @@ func (fp *FruitPrice) String() string {
 	var builder strings.Builder
 	builder.WriteString("FruitPrice(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", fp.ID))
+	builder.WriteString("created_at=")
+	builder.WriteString(fp.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("updated_at=")
+	builder.WriteString(fp.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("created_by=")
+	builder.WriteString(fp.CreatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("updated_by=")
+	builder.WriteString(fp.UpdatedBy)
+	builder.WriteString(", ")
+	if v := fp.DeletedAt; v != nil {
+		builder.WriteString("deleted_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
 	builder.WriteString("name=")
 	builder.WriteString(fp.Name)
 	builder.WriteString(", ")
@@ -150,12 +193,6 @@ func (fp *FruitPrice) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("remark=")
 	builder.WriteString(fp.Remark)
-	builder.WriteString(", ")
-	builder.WriteString("created_at=")
-	builder.WriteString(fp.CreatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("updated_at=")
-	builder.WriteString(fp.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

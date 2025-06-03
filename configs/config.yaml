@@ -1,0 +1,23 @@
+app:
+  name: fruit-price-api
+  env: debug
+  port: 8080
+
+database:
+  host: localhost
+  port: 5432
+  user: root
+  password: code123
+  name: price_db
+  sslmode: disable
+
+log:
+  level: debug
+  format: json
+  output: stdout
+
+cors:
+  allow_origins: ["*"]
+  allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  allow_headers: ["Origin", "Content-Type", "Accept", "Authorization"]
+  max_age: 86400

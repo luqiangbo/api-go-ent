@@ -18,23 +18,15 @@
       "type": "go",
       "request": "launch",
       "mode": "debug",
-      "program": "${workspaceFolder}/main.go",
+      "program": "${workspaceFolder}/cmd/api/main.go",
       "env": {
-        "APP_NAME": "fruit-price-api",
-        "APP_ENV": "development",
-        "APP_DEBUG": "true",
-        "APP_PORT": "8080",
+        "GIN_MODE": "debug",
+        "PORT": "8080",
         "DB_HOST": "localhost",
         "DB_PORT": "5432",
         "DB_USER": "root",
         "DB_PASSWORD": "code123",
-        "DB_NAME": "price_db",
-        "LOG_LEVEL": "debug",
-        "LOG_FORMAT": "json",
-        "CORS_ALLOW_ORIGINS": "*",
-        "CORS_ALLOW_METHODS": "GET,POST,PUT,DELETE,OPTIONS",
-        "CORS_ALLOW_HEADERS": "Origin,Content-Type,Accept,Authorization",
-        "CORS_MAX_AGE": "86400"
+        "DB_NAME": "price_db"
       }
     },
     {
@@ -42,23 +34,15 @@
       "type": "go",
       "request": "launch",
       "mode": "debug",
-      "program": "${workspaceFolder}/main.go",
+      "program": "${workspaceFolder}/cmd/api/main.go",
       "env": {
-        "APP_NAME": "fruit-price-api",
-        "APP_ENV": "production",
-        "APP_DEBUG": "false",
-        "APP_PORT": "8080",
+        "GIN_MODE": "release",
+        "PORT": "8080",
         "DB_HOST": "localhost",
         "DB_PORT": "5432",
         "DB_USER": "root",
         "DB_PASSWORD": "code123",
-        "DB_NAME": "price_db",
-        "LOG_LEVEL": "info",
-        "LOG_FORMAT": "json",
-        "CORS_ALLOW_ORIGINS": "https://your-production-domain.com",
-        "CORS_ALLOW_METHODS": "GET,POST,PUT,DELETE",
-        "CORS_ALLOW_HEADERS": "Origin,Content-Type,Accept,Authorization",
-        "CORS_MAX_AGE": "86400"
+        "DB_NAME": "price_db"
       }
     },
     {
@@ -66,23 +50,15 @@
       "type": "go",
       "request": "launch",
       "mode": "debug",
-      "program": "${workspaceFolder}/main.go",
+      "program": "${workspaceFolder}/cmd/api/main.go",
       "env": {
-        "APP_NAME": "fruit-price-api",
-        "APP_ENV": "testing",
-        "APP_DEBUG": "true",
-        "APP_PORT": "8081",
+        "GIN_MODE": "debug",
+        "PORT": "8081",
         "DB_HOST": "localhost",
         "DB_PORT": "5432",
         "DB_USER": "root",
         "DB_PASSWORD": "code123",
-        "DB_NAME": "price_db_test",
-        "LOG_LEVEL": "debug",
-        "LOG_FORMAT": "text",
-        "CORS_ALLOW_ORIGINS": "*",
-        "CORS_ALLOW_METHODS": "GET,POST,PUT,DELETE,OPTIONS",
-        "CORS_ALLOW_HEADERS": "Origin,Content-Type,Accept,Authorization",
-        "CORS_MAX_AGE": "86400"
+        "DB_NAME": "price_db_test"
       }
     },
     {
@@ -92,7 +68,7 @@
       "mode": "test",
       "program": "${workspaceFolder}",
       "env": {
-        "APP_ENV": "testing",
+        "GIN_MODE": "test",
         "DB_NAME": "price_db_test"
       }
     }

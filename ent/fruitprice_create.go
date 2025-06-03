@@ -21,30 +21,6 @@ type FruitPriceCreate struct {
 	hooks    []Hook
 }
 
-// SetName sets the "name" field.
-func (fpc *FruitPriceCreate) SetName(s string) *FruitPriceCreate {
-	fpc.mutation.SetName(s)
-	return fpc
-}
-
-// SetPrice sets the "price" field.
-func (fpc *FruitPriceCreate) SetPrice(f float64) *FruitPriceCreate {
-	fpc.mutation.SetPrice(f)
-	return fpc
-}
-
-// SetUnit sets the "unit" field.
-func (fpc *FruitPriceCreate) SetUnit(s string) *FruitPriceCreate {
-	fpc.mutation.SetUnit(s)
-	return fpc
-}
-
-// SetRemark sets the "remark" field.
-func (fpc *FruitPriceCreate) SetRemark(s string) *FruitPriceCreate {
-	fpc.mutation.SetRemark(s)
-	return fpc
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (fpc *FruitPriceCreate) SetCreatedAt(t time.Time) *FruitPriceCreate {
 	fpc.mutation.SetCreatedAt(t)
@@ -70,6 +46,72 @@ func (fpc *FruitPriceCreate) SetNillableUpdatedAt(t *time.Time) *FruitPriceCreat
 	if t != nil {
 		fpc.SetUpdatedAt(*t)
 	}
+	return fpc
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (fpc *FruitPriceCreate) SetCreatedBy(s string) *FruitPriceCreate {
+	fpc.mutation.SetCreatedBy(s)
+	return fpc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (fpc *FruitPriceCreate) SetNillableCreatedBy(s *string) *FruitPriceCreate {
+	if s != nil {
+		fpc.SetCreatedBy(*s)
+	}
+	return fpc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (fpc *FruitPriceCreate) SetUpdatedBy(s string) *FruitPriceCreate {
+	fpc.mutation.SetUpdatedBy(s)
+	return fpc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (fpc *FruitPriceCreate) SetNillableUpdatedBy(s *string) *FruitPriceCreate {
+	if s != nil {
+		fpc.SetUpdatedBy(*s)
+	}
+	return fpc
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (fpc *FruitPriceCreate) SetDeletedAt(t time.Time) *FruitPriceCreate {
+	fpc.mutation.SetDeletedAt(t)
+	return fpc
+}
+
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (fpc *FruitPriceCreate) SetNillableDeletedAt(t *time.Time) *FruitPriceCreate {
+	if t != nil {
+		fpc.SetDeletedAt(*t)
+	}
+	return fpc
+}
+
+// SetName sets the "name" field.
+func (fpc *FruitPriceCreate) SetName(s string) *FruitPriceCreate {
+	fpc.mutation.SetName(s)
+	return fpc
+}
+
+// SetPrice sets the "price" field.
+func (fpc *FruitPriceCreate) SetPrice(f float64) *FruitPriceCreate {
+	fpc.mutation.SetPrice(f)
+	return fpc
+}
+
+// SetUnit sets the "unit" field.
+func (fpc *FruitPriceCreate) SetUnit(s string) *FruitPriceCreate {
+	fpc.mutation.SetUnit(s)
+	return fpc
+}
+
+// SetRemark sets the "remark" field.
+func (fpc *FruitPriceCreate) SetRemark(s string) *FruitPriceCreate {
+	fpc.mutation.SetRemark(s)
 	return fpc
 }
 
@@ -138,6 +180,12 @@ func (fpc *FruitPriceCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (fpc *FruitPriceCreate) check() error {
+	if _, ok := fpc.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "FruitPrice.created_at"`)}
+	}
+	if _, ok := fpc.mutation.UpdatedAt(); !ok {
+		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "FruitPrice.updated_at"`)}
+	}
 	if _, ok := fpc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "FruitPrice.name"`)}
 	}
@@ -169,12 +217,6 @@ func (fpc *FruitPriceCreate) check() error {
 		if err := fruitprice.RemarkValidator(v); err != nil {
 			return &ValidationError{Name: "remark", err: fmt.Errorf(`ent: validator failed for field "FruitPrice.remark": %w`, err)}
 		}
-	}
-	if _, ok := fpc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "FruitPrice.created_at"`)}
-	}
-	if _, ok := fpc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "FruitPrice.updated_at"`)}
 	}
 	return nil
 }
@@ -211,6 +253,26 @@ func (fpc *FruitPriceCreate) createSpec() (*FruitPrice, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = &id
 	}
+	if value, ok := fpc.mutation.CreatedAt(); ok {
+		_spec.SetField(fruitprice.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := fpc.mutation.UpdatedAt(); ok {
+		_spec.SetField(fruitprice.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
+	}
+	if value, ok := fpc.mutation.CreatedBy(); ok {
+		_spec.SetField(fruitprice.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := fpc.mutation.UpdatedBy(); ok {
+		_spec.SetField(fruitprice.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := fpc.mutation.DeletedAt(); ok {
+		_spec.SetField(fruitprice.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
+	}
 	if value, ok := fpc.mutation.Name(); ok {
 		_spec.SetField(fruitprice.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -226,14 +288,6 @@ func (fpc *FruitPriceCreate) createSpec() (*FruitPrice, *sqlgraph.CreateSpec) {
 	if value, ok := fpc.mutation.Remark(); ok {
 		_spec.SetField(fruitprice.FieldRemark, field.TypeString, value)
 		_node.Remark = value
-	}
-	if value, ok := fpc.mutation.CreatedAt(); ok {
-		_spec.SetField(fruitprice.FieldCreatedAt, field.TypeTime, value)
-		_node.CreatedAt = value
-	}
-	if value, ok := fpc.mutation.UpdatedAt(); ok {
-		_spec.SetField(fruitprice.FieldUpdatedAt, field.TypeTime, value)
-		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }
