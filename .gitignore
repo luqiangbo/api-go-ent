@@ -1,0 +1,54 @@
+# IDE相关
+.idea/
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+*.swp
+*.swo
+*~
+
+# Go相关
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# 项目生成的文件
+/tools/generate/generate
+/tools/generate/generate.exe
+
+# 依赖目录
+/vendor/
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+
+# 日志文件
+*.log
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+tmp/
+temp/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 编译输出
+/bin/
+/dist/
+
+# 调试文件
+__debug_bin
+debug.test 
