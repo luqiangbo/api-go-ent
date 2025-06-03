@@ -1,9 +1,8 @@
 package handlers
 
 import (
-	"net/http"
-
 	"api-go-ent/ent"
+	"api-go-ent/utils/response"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -19,19 +18,19 @@ func NewFruitPriceHandler(client *ent.Client) *FruitPriceHandler {
 
 type CreateFruitPriceRequest struct {
 	Name   string  `json:"name" binding:"required"`
-	Price  float64 `json:"price" binding:"required"`
+	Price  float64 `json:"price" binding:"required,price"`
 	Unit   string  `json:"unit" binding:"required"`
 	Remark string  `json:"remark" binding:"required"`
 }
 
 type IDRequest struct {
-	ID string `json:"id" binding:"required"`
+	ID string `json:"id" binding:"required,uuid"`
 }
 
 func (h *FruitPriceHandler) Create(c *gin.Context) {
 	var req CreateFruitPriceRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		response.BadRequest(c, err.Error())
 		return
 	}
 
@@ -42,53 +41,53 @@ func (h *FruitPriceHandler) Create(c *gin.Context) {
 		SetRemark(req.Remark).
 		Save(c.Request.Context())
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		response.InternalError(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusCreated, fruitPrice)
+	response.Created(c, fruitPrice)
 }
 
 func (h *FruitPriceHandler) GetAll(c *gin.Context) {
 	fruitPrices, err := h.client.FruitPrice.Query().All(c.Request.Context())
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		response.InternalError(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, fruitPrices)
+	response.Success(c, fruitPrices)
 }
 
 func (h *FruitPriceHandler) GetByID(c *gin.Context) {
 	var req IDRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		response.BadRequest(c, err.Error())
 		return
 	}
 
 	id, err := uuid.Parse(req.ID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		response.BadRequest(c, "Invalid ID format")
 		return
 	}
 
 	fruitPrice, err := h.client.FruitPrice.Get(c.Request.Context(), id)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "FruitPrice not found"})
+			response.NotFound(c, "FruitPrice not found")
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		response.InternalError(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, fruitPrice)
+	response.Success(c, fruitPrice)
 }
 
 type UpdateFruitPriceRequest struct {
-	ID     string  `json:"id" binding:"required"`
+	ID     string  `json:"id" binding:"required,uuid"`
 	Name   string  `json:"name" binding:"required"`
-	Price  float64 `json:"price" binding:"required"`
+	Price  float64 `json:"price" binding:"required,price"`
 	Unit   string  `json:"unit" binding:"required"`
 	Remark string  `json:"remark" binding:"required"`
 }
@@ -96,13 +95,13 @@ type UpdateFruitPriceRequest struct {
 func (h *FruitPriceHandler) Update(c *gin.Context) {
 	var req UpdateFruitPriceRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		response.BadRequest(c, err.Error())
 		return
 	}
 
 	id, err := uuid.Parse(req.ID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		response.BadRequest(c, "Invalid ID format")
 		return
 	}
 
@@ -114,38 +113,38 @@ func (h *FruitPriceHandler) Update(c *gin.Context) {
 		Save(c.Request.Context())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "FruitPrice not found"})
+			response.NotFound(c, "FruitPrice not found")
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		response.InternalError(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, fruitPrice)
+	response.Success(c, fruitPrice)
 }
 
 func (h *FruitPriceHandler) Delete(c *gin.Context) {
 	var req IDRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		response.BadRequest(c, err.Error())
 		return
 	}
 
 	id, err := uuid.Parse(req.ID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		response.BadRequest(c, "Invalid ID format")
 		return
 	}
 
 	err = h.client.FruitPrice.DeleteOneID(id).Exec(c.Request.Context())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "FruitPrice not found"})
+			response.NotFound(c, "FruitPrice not found")
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		response.InternalError(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "FruitPrice deleted successfully"})
+	response.Success(c, gin.H{"message": "FruitPrice deleted successfully"})
 }
